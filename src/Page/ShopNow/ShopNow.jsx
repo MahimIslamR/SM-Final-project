@@ -5,7 +5,7 @@ import { FilterContext } from '../../Context/FilterContext';
 
 const ShopNow = () => {
     const { products, categorys } = useData();
-    const { categoryId, setCategoryId } = useContext(FilterContext);
+    const { categoryId, setCategoryId, searchTerm } = useContext(FilterContext);
     const [width, setWidth] = useState(null);
 
 
@@ -28,7 +28,12 @@ const ShopNow = () => {
     const filterData = products.filter(p => {
         const matchCategory = categoryId ? p.categoryId === categoryId : true;
         const matchWidth = width ? p.width === width : true;
-        return matchCategory && matchWidth;
+        const matchSearch = searchTerm 
+            ? p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+              p.categoryName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              (p.description && p.description.toLowerCase().includes(searchTerm.toLowerCase()))
+            : true;
+        return matchCategory && matchWidth && matchSearch;
     });
 
     return (

@@ -4,11 +4,20 @@ import { useParams } from 'react-router';
 import { FaStar } from 'react-icons/fa';
 import ProductCard from './ProductCard';
 import SectionHeading from './SectionHeading';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/actions/cartActions';
 
 const SingleProductPage = () => {
+    const dispatch = useDispatch();
     const { id } = useParams()
     const { products } = useData()
     const findProducts = products.find(p => p.id == id)
+    
+    const handleAddToCart = () => {
+        if (findProducts) {
+            dispatch(addToCart(findProducts));
+        }
+    };
     
     useEffect(() => {
         if (!findProducts) return;
@@ -78,7 +87,7 @@ const SingleProductPage = () => {
                                 <p>+</p>
                             </div>
                             <div>
-                                <button className='btn bgp text-gray-100'>Add To Cart</button>
+                                <button onClick={handleAddToCart} className='btn bgp text-gray-100'>Add To Cart</button>
                             </div>
                         </div>
                     </div>

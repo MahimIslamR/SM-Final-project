@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import logo from '../../../assets/image/logo.png'
 import { CiShoppingCart, CiUser } from "react-icons/ci";
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
+import { FilterContext } from '../../../Context/FilterContext';
 
 const MinHeader = () => {
     const cart = useSelector(state => state.cart.cart);
+    const { searchTerm, setSearchTerm } = useContext(FilterContext);
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
 
     return (
         <div >
@@ -25,7 +31,13 @@ const MinHeader = () => {
                                 <path d="m21 21-4.3-4.3"></path>
                             </g>
                         </svg>
-                        <input type="search" className='w-full lg:w-100' required placeholder="Search . . ." />
+                        <input 
+                            type="search" 
+                            className='w-full lg:w-100' 
+                            placeholder="Search . . ." 
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                        />
                     </label>
                 </div>
                 <div className='flex gap-5 order-2 md:order-3'>
